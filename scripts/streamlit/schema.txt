@@ -1,0 +1,86 @@
+CREATE TABLE battery_components (
+        battery_type DECIMAL(38, 0), 
+        anode VARCHAR(16777216), 
+        cathode VARCHAR(16777216), 
+        electrolyte VARCHAR(16777216)
+)
+
+CREATE TABLE battery_supplier (
+        id DECIMAL(38, 0), 
+        name VARCHAR(16777216), 
+        state VARCHAR(16777216), 
+        latitude FLOAT, 
+        longitude FLOAT
+)
+
+CREATE TABLE battery_type (
+        id DECIMAL(38, 0), 
+        name VARCHAR(16777216)
+)
+
+CREATE TABLE dtc_battery_error_codes (
+        error_id DECIMAL(18, 0), 
+        error_code VARCHAR(16777216), 
+        description VARCHAR(16777216)
+)
+
+CREATE TABLE part_battery (
+        part_id DECIMAL(18, 0), 
+        ah DECIMAL(3, 0), 
+        amp_hours VARCHAR(16777216), 
+        terminal VARCHAR(16777216), 
+        size_length_cm DECIMAL(2, 0), 
+        mfg_year DECIMAL(4, 0), 
+        part_number VARCHAR(16777216), 
+        type DECIMAL(2, 0), 
+        supplier DECIMAL(2, 0), 
+        temp_range_celsius VARCHAR(16777216), 
+        temp_range_fahrenheit VARCHAR(16777216), 
+        voltage_range VARCHAR(10), 
+        recommended_charging_voltage_range VARCHAR(14), 
+        recommended_charging_current_range VARCHAR(10), 
+        overcharge_protection DECIMAL(2, 0), 
+        overcurrent_protection DECIMAL(2, 0), 
+        discharge_current VARCHAR(16777216), 
+        cut_off_voltage VARCHAR(4)
+)
+
+CREATE TABLE vehicles (
+        car_id DECIMAL(18, 0), 
+        vin VARCHAR(16777216), 
+        model_year DECIMAL(4, 0), 
+        vehicle_config VARCHAR(5), 
+        doors DECIMAL(1, 0), 
+        state VARCHAR(16777216), 
+        state_ab VARCHAR(2), 
+        country VARCHAR(3), 
+        part_number VARCHAR(16777216), 
+        battery_serial_number VARCHAR(16777216)
+)
+
+CREATE TABLE vehicles_zipcodes_distances_dates_weather_dtc (
+        car_id DECIMAL(18, 0), 
+        vin VARCHAR(16777216), 
+        model_year DECIMAL(4, 0), 
+        vehicle_config VARCHAR(5), 
+        doors DECIMAL(1, 0), 
+        state VARCHAR(16777216), 
+        state_ab VARCHAR(2), 
+        city VARCHAR(16777216), 
+        country VARCHAR(3), 
+        part_number VARCHAR(16777216), 
+        battery_serial_number VARCHAR(16777216), 
+        zip VARCHAR(16777216), 
+        longitude VARCHAR(16777216), 
+        latitude VARCHAR(16777216), 
+        des_long VARCHAR(16777216), 
+        dest_lat VARCHAR(16777216), 
+        dist_in_m FLOAT, 
+        record_counts DECIMAL(18, 0), 
+        date_values DATE, 
+        avg_temp_f DECIMAL(5, 1), 
+        avg_wind_speed_mph DECIMAL(4, 1), 
+        tot_precipitation_in DECIMAL(4, 2), 
+        tot_snowfall_in DECIMAL(4, 2), 
+        dtc_error_code DECIMAL(38, 0)
+)
