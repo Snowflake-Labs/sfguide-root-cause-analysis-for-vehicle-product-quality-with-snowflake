@@ -1,4 +1,4 @@
-# Root Cause Analysis for vehicle product quality with Snowflake
+# Root Cause Analysis for Vehicle Product Quality with Snowflake
 
 ## Overview
 
