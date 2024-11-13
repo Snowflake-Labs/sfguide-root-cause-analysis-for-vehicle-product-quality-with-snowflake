@@ -2,9 +2,9 @@ name: app_environment
 channels:  
   - snowflake  
 dependencies:  
-  - pydeck 0.7.1
-  - plotly 5.9.0
-  - pandas 1.5.3
+  - pydeck==0.7.1
+  - plotly==5.9.0
+  - pandas==1.5.3
 
 
 
