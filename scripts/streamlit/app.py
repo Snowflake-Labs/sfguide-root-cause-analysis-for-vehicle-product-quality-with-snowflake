@@ -60,7 +60,7 @@ def rgb_to_color_name(rgb):
 #######################################
 def query_vehicles():
     return f"""
-    SELECT * FROM connected_mobility.public.vehicles
+    SELECT * FROM connected_mobility_rca.public.vehicles
     """
 
 
@@ -73,7 +73,7 @@ def query_vehicles_all():
             longitude::FLOAT AS longitude, latitude::FLOAT AS latitude, 
             date_values, avg_temp_f, avg_wind_speed_mph, tot_precipitation_in, tot_snowfall_in, 
             dtc_error_code
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     """
 
 
@@ -86,12 +86,12 @@ def query_dtc_errors_counts(year_start, year_end):
     dbec.description
     FROM (
         SELECT dtc_error_code, count(dtc_error_code) AS error_code_count
-            FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+            FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
             WHERE dtc_error_code <> 0
             AND model_year BETWEEN {year_start} AND {year_end}
             GROUP BY dtc_error_code
             ) AS vzddwd
-    JOIN connected_mobility.public.dtc_battery_error_codes AS dbec
+    JOIN connected_mobility_rca.public.dtc_battery_error_codes AS dbec
     ON vzddwd.dtc_error_code = dbec.error_id
     """
 
@@ -100,7 +100,7 @@ def query_dtc_errors_counts(year_start, year_end):
 def query_modelyear_dtc_errors_counts():
     return """
     SELECT model_year, count(dtc_error_code) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     GROUP BY model_year
     ORDER BY model_year
@@ -115,9 +115,9 @@ def query_doors_dtc_errors_counts(min_model_year, max_model_year):
     FROM 
     (
     SELECT DISTINCT doors 
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     ) AS doors
-    LEFT JOIN connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc dtc
+    LEFT JOIN connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc dtc
         ON doors.doors = dtc.doors 
         AND dtc.dtc_error_code <> 0
         AND dtc.model_year BETWEEN {min_model_year} AND {max_model_year}
@@ -133,9 +133,9 @@ def query_vehicleconfig_dtc_errors_counts(min_model_year, max_model_year):
             COUNT(dtc.dtc_error_code) AS error_code_count
     FROM (
     SELECT DISTINCT vehicle_config 
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     ) AS configs
-    LEFT JOIN connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc dtc
+    LEFT JOIN connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc dtc
         ON configs.vehicle_config = dtc.vehicle_config 
         AND dtc.dtc_error_code <> 0
         AND dtc.model_year BETWEEN {min_model_year} AND {max_model_year}
@@ -148,7 +148,7 @@ def query_vehicleconfig_dtc_errors_counts(min_model_year, max_model_year):
 def query_state_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT state, count(dtc_error_code) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP BY state
@@ -160,7 +160,7 @@ def query_state_dtc_errors_counts(min_model_year, max_model_year):
 def query_months_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT MONTH(date_values) AS months, COUNT(car_id) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP by months
@@ -172,7 +172,7 @@ def query_months_dtc_errors_counts(min_model_year, max_model_year):
 def query_temp_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT avg_temp_f, COUNT(car_id) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP BY avg_temp_f
@@ -184,7 +184,7 @@ def query_temp_dtc_errors_counts(min_model_year, max_model_year):
 def query_snowfall_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT tot_snowfall_in, COUNT(car_id) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP BY tot_snowfall_in
@@ -196,7 +196,7 @@ def query_snowfall_dtc_errors_counts(min_model_year, max_model_year):
 def query_precipitation_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT tot_precipitation_in, COUNT(car_id) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP BY tot_precipitation_in
@@ -208,7 +208,7 @@ def query_precipitation_dtc_errors_counts(min_model_year, max_model_year):
 def query_batterypart_dtc_errors_counts(min_model_year, max_model_year):
     return f"""
     SELECT part_number, COUNT(car_id) AS error_code_count
-    FROM connected_mobility.public.vehicles_zipcodes_distances_dates_weather_dtc
+    FROM connected_mobility_rca.public.vehicles_zipcodes_distances_dates_weather_dtc
     WHERE dtc_error_code <> 0
     AND model_year BETWEEN {min_model_year} AND {max_model_year}
     GROUP BY part_number
@@ -224,7 +224,7 @@ def query_batterypart_dtc_errors_counts(min_model_year, max_model_year):
 # Battery Part Numbers List
 def query_battery_part_numbers_list():
     return """
-    SELECT DISTINCT part_number FROM connected_mobility.public.vehicles
+    SELECT DISTINCT part_number FROM connected_mobility_rca.public.vehicles
     """
 
 
@@ -232,10 +232,10 @@ def query_battery_part_numbers_list():
 def query_battery_suppliers(part_number):
     return f"""
     SELECT * 
-    FROM connected_mobility.public.battery_supplier 
+    FROM connected_mobility_rca.public.battery_supplier 
     WHERE id IN (
         SELECT supplier
-        FROM connected_mobility.public.part_battery
+        FROM connected_mobility_rca.public.part_battery
         WHERE part_number IN {part_number}
     )
     ORDER BY id
@@ -246,11 +246,11 @@ def query_battery_suppliers(part_number):
 def query_battery_types(part_number):
     return f"""
     SELECT * 
-    FROM connected_mobility.public.battery_type 
+    FROM connected_mobility_rca.public.battery_type 
     WHERE 1=1
     AND id IN (
     SELECT DISTINCT type
-    FROM connected_mobility.public.part_battery
+    FROM connected_mobility_rca.public.part_battery
     WHERE 1=1
     AND part_number IN {part_number}
     )
@@ -261,11 +261,11 @@ def query_battery_types(part_number):
 def query_battery_components(part_number):
     return f"""
     SELECT * 
-    FROM connected_mobility.public.battery_components 
+    FROM connected_mobility_rca.public.battery_components 
     WHERE 1=1
     AND battery_type IN (
     SELECT DISTINCT type
-    FROM connected_mobility.public.part_battery
+    FROM connected_mobility_rca.public.part_battery
     WHERE 1=1
     AND part_number IN {part_number}
     )
@@ -282,8 +282,8 @@ def query_battery_quality_info(part_number):
             pb.type, pb.temp_range_fahrenheit, pb.voltage_range, pb.recommended_charging_voltage_range,
             pb.recommended_charging_current_range, pb.overcharge_protection, pb.overcurrent_protection,
             pb.discharge_current, pb.cut_off_voltage
-    FROM connected_mobility.public.part_battery AS pb
-    LEFT JOIN  connected_mobility.public.battery_supplier AS bs
+    FROM connected_mobility_rca.public.part_battery AS pb
+    LEFT JOIN  connected_mobility_rca.public.battery_supplier AS bs
     ON pb.supplier = bs.id
     WHERE 1=1
     AND part_number IN {part_number}
@@ -344,7 +344,7 @@ def query_gen_rca_cortex(model_name, static_prompt):
 
 def query_gen_rca_custom(prompt_input):
     return f"""
-    SELECT connected_mobility.public.cmllm_text2sql('''{prompt_input}''')::STRING AS query_output;
+    SELECT connected_mobility_rca.public.cmllm_text2sql('''{prompt_input}''')::STRING AS query_output;
     """
 
 
@@ -1311,3 +1311,4 @@ def main():
 
 
 main()
+
